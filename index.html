@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>АгроТехИнвест — Продажа и лизинг сельскохозяйственной техники</title>
+  <!-- Подключение Google Fonts: Inter & Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Подключение Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Конфигурация цветов и шрифтов Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            agro: {
+              dark: '#0f291e',
+              primary: '#155e3d',
+              hover: '#114b31',
+              light: '#e8f5ee',
+              accent: '#d97706',
+              accentHover: '#b45309',
+              amberLight: '#fef3c7',
+              slate: '#1e293b',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Стилизация ползунков (range input) для калькулятора */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      border-radius: 9999px;
+      background: #d1fae5;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #155e3d;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.12);
+      background: #d97706;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #155e3d;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+    /* Плавная анимация появления */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.35s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-agro-primary selection:text-white">
+
+  <!-- ==================== 1. ШАПКА САЙТА (HEADER) ==================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Логотип -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded-xl bg-agro-primary flex items-center justify-center text-white shadow-md group-hover:bg-agro-hover transition">
+            <!-- SVG иконка колоса и шестеренки -->
+            <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m0-18c-2.5 2-4 5-4 8s1.5 6 4 8m0-16c2.5 2 4 5 4 8s-1.5 6-4 8M5 10c2.5 0 4.5 1.5 7 3m7-3c-2.5 0-4.5 1.5-7 3M5 15c2.5 0 4.5 1.5 7 3m7-3c-2.5 0-4.5 1.5-7 3" />
+            </svg>
+          </div>
+          <div>
+            <span class="block text-xl font-extrabold tracking-tight text-slate-900 leading-none">
+              АгроТех<span class="text-agro-primary">Инвест</span>
+            </span>
+            <span class="block text-xs text-slate-500 font-medium mt-0.5">Лизинг сельхозтехники</span>
+          </div>
+        </a>
+
+        <!-- Десктопная навигация -->
+        <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-700">
+          <a href="#catalog" class="hover:text-agro-primary transition py-2">Каталог техники</a>
+          <a href="#conditions" class="hover:text-agro-primary transition py-2">Условия лизинга</a>
+          <a href="#calculator" class="hover:text-agro-primary transition py-2">Калькулятор лизинга</a>
+          <a href="#application" class="hover:text-agro-primary transition py-2">Оставить заявку</a>
+        </nav>
+
+        <!-- Контакты и кнопка звонка -->
+        <div class="hidden sm:flex items-center gap-4">
+          <div class="text-right">
+            <a href="tel:+78005553489" class="block text-base font-bold text-slate-900 hover:text-agro-primary transition">
+              8 (800) 555-34-89
+            </a>
+            <span class="block text-xs text-emerald-700 font-medium">Бесплатно по РФ и СНГ • 08:00–20:00</span>
+          </div>
+          <button onclick="openCallbackModal('Заказать обратный звонок')" class="px-4 py-2.5 rounded-xl bg-agro-primary hover:bg-agro-hover text-white text-sm font-semibold shadow-sm transition cursor-pointer">
+            Заказать звонок
+          </button>
+        </div>
+
+        <!-- Кнопка мобильного меню -->
+        <button id="mobile-menu-btn" aria-label="Открыть меню" class="lg:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Выпадающее мобильное меню -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-200 px-4 pt-3 pb-5 space-y-2 shadow-lg">
+      <a href="#catalog" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-base font-semibold text-slate-800 hover:bg-agro-light hover:text-agro-primary">Каталог техники</a>
+      <a href="#conditions" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-base font-semibold text-slate-800 hover:bg-agro-light hover:text-agro-primary">Условия лизинга</a>
+      <a href="#calculator" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-base font-semibold text-slate-800 hover:bg-agro-light hover:text-agro-primary">Калькулятор лизинга</a>
+      <a href="#application" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-base font-semibold text-slate-800 hover:bg-agro-light hover:text-agro-primary">Оставить заявку</a>
+      <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+        <a href="tel:+78005553489" class="text-lg font-bold text-slate-900 px-3">8 (800) 555-34-89</a>
+        <button onclick="openCallbackModal('Заказать обратный звонок')" class="w-full py-3 rounded-xl bg-agro-primary text-white font-semibold">
+          Заказать звонок
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 2. ГЛАВНЫЙ ЭКРАН (HERO SECTION) ==================== -->
+  <section class="relative overflow-hidden bg-agro-dark text-white">
+    <!-- Фоновое изображение с затемняющим градиентом -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1920&q=80"
+        alt="Сельскохозяйственная техника в поле на закате"
+        class="w-full h-full object-cover opacity-30"
+        onerror="this.style.display='none'"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-agro-dark via-agro-dark/90 to-agro-primary/75"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
+      <div class="max-w-3xl">
+        <!-- Плашка госпрограммы -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-semibold mb-6">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          Программа льготного агролизинга 2026 • Субсидии до 15%
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+          Надежная сельхозтехника в лизинг <span class="text-amber-400">для вашего хозяйства</span>
+        </h1>
+
+        <p class="text-base sm:text-xl text-slate-200 leading-relaxed mb-8 max-w-2xl">
+          Поставка современных тракторов, комбайнов и посевных комплексов от официальных дилеров.
+          Аванс <strong class="text-white">от 10%</strong>, срок финансирования <strong class="text-white">до 7 лет</strong>,
+          одобрение заявки <strong class="text-white">за 1 день</strong> и сезонный график платежей под сбор урожая.
+        </p>
+
+        <!-- Кнопки действий -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-12">
+          <a href="#catalog" class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-agro-accent hover:bg-agro-accentHover text-white font-bold text-base shadow-lg shadow-amber-900/30 transition">
+            <span>Перейти в каталог техники</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a href="#calculator" class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/25 text-white font-bold text-base transition">
+            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <span>Рассчитать лизинг</span>
+          </a>
+        </div>
+
+        <!-- Ключевые показатели (4 карточки) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-6 border-t border-white/15">
+          <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+            <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">от 10%</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-1">Минимальный авансовый платеж</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+            <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">до 7 лет</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-1">Срок договора лизинга</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+            <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">1 день</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-1">Решение по пакету документов</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+            <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">от 3,5%</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-1">Удорожание в год с субсидией</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. ИНТЕРАКТИВНЫЙ КАТАЛОГ ТЕХНИКИ ==================== -->
+  <section id="catalog" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+      <div>
+        <span class="inline-block text-xs font-bold uppercase tracking-wider text-agro-primary bg-agro-light px-3 py-1 rounded-full mb-3">
+          В наличии и под заказ
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Каталог сельскохозяйственной техники
+        </h2>
+        <p class="text-slate-600 mt-2 max-w-2xl text-base">
+          Выберите подходящую машину, изучите подробные технические характеристики и рассчитайте индивидуальный график платежей.
+        </p>
+      </div>
+
+      <!-- Поле поиска -->
+      <div class="w-full md:w-80 relative">
+        <input
+          type="text"
+          id="catalog-search"
+          placeholder="Поиск: модель, бренд, мощность..."
+          class="w-full pl-11 pr-4 py-3 rounded-2xl bg-white border border-slate-300 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20 shadow-sm transition"
+        />
+        <svg class="w-5 h-5 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Фильтры по категориям -->
+    <div id="category-filters" class="flex flex-wrap gap-2.5 mb-8">
+      <button data-category="all" class="filter-btn active px-4 py-2.5 rounded-xl text-sm font-semibold bg-agro-primary text-white shadow-sm transition cursor-pointer">
+        Все модели (8)
+      </button>
+      <button data-category="tractors" class="filter-btn px-4 py-2.5 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-agro-primary hover:text-agro-primary transition cursor-pointer">
+        Тракторы (колесные и гусеничные)
+      </button>
+      <button data-category="combines" class="filter-btn px-4 py-2.5 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-agro-primary hover:text-agro-primary transition cursor-pointer">
+        Комбайны (зерно- и кормоуборочные)
+      </button>
+      <button data-category="seeding" class="filter-btn px-4 py-2.5 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-agro-primary hover:text-agro-primary transition cursor-pointer">
+        Посевная и почвообработка
+      </button>
+      <button data-category="sprayers" class="filter-btn px-4 py-2.5 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-agro-primary hover:text-agro-primary transition cursor-pointer">
+        Опрыскиватели и погрузчики
+      </button>
+    </div>
+
+    <!-- Сетка карточек техники -->
+    <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Карточки рендерятся динамически через JavaScript -->
+    </div>
+
+    <!-- Сообщение при пустом поиске -->
+    <div id="catalog-empty" class="hidden text-center py-16 bg-white rounded-3xl border border-slate-200">
+      <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4 text-slate-400">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900">Техника по вашему запросу не найдена</h3>
+      <p class="text-slate-500 text-sm mt-1 mb-5">Попробуйте изменить поисковый запрос или сбросить фильтр категорий.</p>
+      <button onclick="resetFilters()" class="px-5 py-2.5 rounded-xl bg-agro-primary text-white text-sm font-semibold hover:bg-agro-hover transition">
+        Сбросить фильтры
+      </button>
+    </div>
+  </section>
+
+  <!-- ==================== 4. ОСНОВНЫЕ УСЛОВИЯ ПОКУПКИ В ЛИЗИНГ ==================== -->
+  <section id="conditions" class="py-16 sm:py-24 bg-white border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="inline-block text-xs font-bold uppercase tracking-wider text-amber-800 bg-agro-amberLight px-3 py-1 rounded-full mb-3">
+          Прозрачное финансирование
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Основные условия покупки в лизинг
+        </h2>
+        <p class="text-slate-600 mt-3 text-base">
+          Программы финансирования адаптированы под сезонность сельскохозяйственного бизнеса и позволяют обновлять парк без изъятия оборотных средств.
+        </p>
+      </div>
+
+      <!-- Сетка ключевых условий (6 карточек) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <!-- Условие 1: Аванс -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-agro-primary/50 hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-agro-light text-agro-primary flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-agro-primary mb-1">Авансовый платеж</div>
+          <h3 class="text-xl font-extrabold text-slate-900 mb-2">от 10% до 49%</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Возможность оформления с <strong>авансом 0%</strong> при участии в программах государственной поддержки и трейд-ин старой техники.
+          </p>
+        </div>
+
+        <!-- Условие 2: Срок лизинга -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-agro-primary/50 hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-agro-light text-agro-primary flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-agro-primary mb-1">Срок лизинга</div>
+          <h3 class="text-xl font-extrabold text-slate-900 mb-2">от 12 до 84 месяцев</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Гибкий выбор срока договора <strong>до 7 лет</strong> с правом досрочного выкупа техники начиная с 6-го месяца без штрафов.
+          </p>
+        </div>
+
+        <!-- Условие 3: График платежей -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-agro-primary/50 hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-agro-light text-agro-primary flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+            </svg>
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-agro-primary mb-1">График платежей</div>
+          <h3 class="text-xl font-extrabold text-slate-900 mb-2">Сезонный или равный</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            <strong>Сезонный график</strong> с привязкой основных выплат к периоду сбора и реализации урожая, аннуитетный или убывающий.
+          </p>
+        </div>
+
+        <!-- Условие 4: Удорожание -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-agro-primary/50 hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-agro-amberLight text-agro-accent flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+            </svg>
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-agro-accent mb-1">Ставка удорожания</div>
+          <h3 class="text-xl font-extrabold text-slate-900 mb-2">от 3,5% в год</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Льготная ставка с учетом субсидий Минсельхоза и скидок от заводов-производителей. Экономия до 40% за счет возврата НДС и налога на прибыль.
+          </p>
+        </div>
+
+        <!-- Условие 5: Требования к клиенту -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-agro-primary/50 hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-agro-light text-agro-primary flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-agro-primary mb-1">Требования к клиенту</div>
+          <h3 class="text-xl font-extrabold text-slate-900 mb-2">КФХ, ИП, ООО / ТОО</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Срок ведения деятельности от 6 месяцев. Минимальный пакет документов: <strong>ИНН/БИН, паспорт руководителя, выписка по счету</strong>.
+          </p>
+        </div>
+
+        <!-- Условие 6: Срок рассмотрения -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-agro-primary/50 hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-agro-light text-agro-primary flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-agro-primary mb-1">Скорость сделки</div>
+          <h3 class="text-xl font-extrabold text-slate-900 mb-2">Решение за 2 часа</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Предварительное одобрение по экспресс-оценке за 2 часа. Полное оформление договора и отгрузка техники в хозяйство за <strong>3–5 рабочих дней</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Пошаговая схема оформления (4 шага) -->
+      <div class="bg-agro-dark rounded-3xl p-6 sm:p-10 text-white shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-white/15">
+          <div>
+            <h3 class="text-2xl font-extrabold">Как получить технику за 4 простых шага</h3>
+            <p class="text-slate-300 text-sm mt-1">От выбора модели в каталоге до выхода машины в поле</p>
+          </div>
+          <a href="#application" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-agro-accent hover:bg-agro-accentHover text-white text-sm font-bold transition shrink-0">
+            Начать оформление
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Шаг 1 -->
+          <div class="relative bg-white/5 border border-white/10 rounded-2xl p-5">
+            <div class="w-9 h-9 rounded-xl bg-amber-400 text-agro-dark font-extrabold flex items-center justify-center text-base mb-4">1</div>
+            <h4 class="text-lg font-bold mb-2">Выбор техники</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Подберите трактор, комбайн или агрегат в каталоге и рассчитайте комфортный график платежей.
+            </p>
+          </div>
+          <!-- Шаг 2 -->
+          <div class="relative bg-white/5 border border-white/10 rounded-2xl p-5">
+            <div class="w-9 h-9 rounded-xl bg-amber-400 text-agro-dark font-extrabold flex items-center justify-center text-base mb-4">2</div>
+            <h4 class="text-lg font-bold mb-2">Подача заявки</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Оставьте заявку онлайн и передайте менеджеру 3 базовых документа без визита в офис.
+            </p>
+          </div>
+          <!-- Шаг 3 -->
+          <div class="relative bg-white/5 border border-white/10 rounded-2xl p-5">
+            <div class="w-9 h-9 rounded-xl bg-amber-400 text-agro-dark font-extrabold flex items-center justify-center text-base mb-4">3</div>
+            <h4 class="text-lg font-bold mb-2">Одобрение и договор</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Получите одобрение за 2 часа, подпишите договор по ЭДО и внесите авансовый платеж от 10%.
+            </p>
+          </div>
+          <!-- Шаг 4 -->
+          <div class="relative bg-white/5 border border-white/10 rounded-2xl p-5">
+            <div class="w-9 h-9 rounded-xl bg-emerald-400 text-agro-dark font-extrabold flex items-center justify-center text-base mb-4">4</div>
+            <h4 class="text-lg font-bold mb-2">Передача в хозяйство</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Техника проходит предпродажную подготовку, страхуется и доставляется прямо в ваше хозяйство.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР ЛИЗИНГА ==================== -->
+  <section id="calculator" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-10">
+      <span class="inline-block text-xs font-bold uppercase tracking-wider text-agro-primary bg-agro-light px-3 py-1 rounded-full mb-3">
+        Онлайн-расчет за 10 секунд
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Калькулятор лизинга сельхозтехники
+      </h2>
+      <p class="text-slate-600 mt-2 max-w-2xl text-base">
+        Выберите конкретную модель из каталога или укажите произвольную стоимость, чтобы рассчитать ежемесячный платеж и налоговую экономию.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Левая колонка: Параметры расчета -->
+      <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-7">
+        <!-- Выбор техники из каталога -->
+        <div>
+          <label for="calc-model-select" class="block text-sm font-bold text-slate-800 mb-2">
+            Выберите модель техники из каталога (или укажите свою цену ниже)
+          </label>
+          <select
+            id="calc-model-select"
+            class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-300 text-slate-900 font-medium text-sm focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20 transition"
+          >
+            <option value="custom">— Произвольная стоимость техники —</option>
+          </select>
+        </div>
+
+        <!-- Ползунок 1: Стоимость техники -->
+        <div>
+          <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+            <label for="calc-price-range" class="text-sm font-bold text-slate-800">Стоимость техники с НДС</label>
+            <div class="flex items-center gap-1.5 bg-agro-light px-3.5 py-1.5 rounded-xl">
+              <input
+                type="number"
+                id="calc-price-input"
+                min="1000000"
+                max="80000000"
+                step="100000"
+                value="18500000"
+                class="w-32 bg-transparent text-right font-extrabold text-agro-primary text-base focus:outline-none"
+              />
+              <span class="font-bold text-agro-primary text-sm">₽</span>
+            </div>
+          </div>
+          <input type="range" id="calc-price-range" min="1500000" max="65000000" step="100000" value="18500000" class="w-full" />
+          <div class="flex justify-between text-xs text-slate-400 mt-1.5 font-medium">
+            <span>1,5 млн ₽</span>
+            <span>30 млн ₽</span>
+            <span>65 млн ₽</span>
+          </div>
+        </div>
+
+        <!-- Ползунок 2: Первоначальный взнос (аванс) -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label for="calc-advance-range" class="text-sm font-bold text-slate-800">Первоначальный взнос (аванс)</label>
+            <div class="flex items-center gap-2">
+              <span id="calc-advance-percent-label" class="px-3 py-1 rounded-xl bg-amber-100 text-amber-800 font-extrabold text-sm">20%</span>
+              <span id="calc-advance-sum-label" class="text-sm font-bold text-slate-700">3 700 000 ₽</span>
+            </div>
+          </div>
+          <input type="range" id="calc-advance-range" min="10" max="50" step="5" value="20" class="w-full" />
+          <div class="flex justify-between text-xs text-slate-400 mt-1.5 font-medium">
+            <span>10% (мин.)</span>
+            <span>30%</span>
+            <span>50% (макс.)</span>
+          </div>
+        </div>
+
+        <!-- Ползунок 3: Срок лизинга -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label for="calc-term-range" class="text-sm font-bold text-slate-800">Срок договора лизинга</label>
+            <span id="calc-term-label" class="px-3.5 py-1 rounded-xl bg-agro-light text-agro-primary font-extrabold text-sm">5 лет (60 мес.)</span>
+          </div>
+          <input type="range" id="calc-term-range" min="1" max="7" step="1" value="5" class="w-full" />
+          <div class="flex justify-between text-xs text-slate-400 mt-1.5 font-medium">
+            <span>1 год</span>
+            <span>3 года</span>
+            <span>5 лет</span>
+            <span>7 лет</span>
+          </div>
+        </div>
+
+        <!-- Переключатель типа графика платежей -->
+        <div>
+          <span class="block text-sm font-bold text-slate-800 mb-2.5">Тип графика платежей</span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button
+              type="button"
+              id="schedule-seasonal-btn"
+              onclick="setScheduleType('seasonal')"
+              class="schedule-type-btn active flex items-start gap-2.5 p-3.5 rounded-2xl border-2 border-agro-primary bg-agro-light/60 text-left transition cursor-pointer"
+            >
+              <div class="w-4 h-4 rounded-full border-4 border-agro-primary bg-white mt-0.5 shrink-0"></div>
+              <div>
+                <div class="text-sm font-bold text-slate-900">Сезонный</div>
+                <div class="text-xs text-slate-600 mt-0.5">Сниженные выплаты зимой, основные — после уборки</div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              id="schedule-annuity-btn"
+              onclick="setScheduleType('annuity')"
+              class="schedule-type-btn flex items-start gap-2.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 text-left transition cursor-pointer"
+            >
+              <div class="w-4 h-4 rounded-full border-2 border-slate-300 bg-white mt-0.5 shrink-0"></div>
+              <div>
+                <div class="text-sm font-bold text-slate-900">Аннуитетный</div>
+                <div class="text-xs text-slate-600 mt-0.5">Одинаковый равный платеж каждый месяц</div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              id="schedule-decreasing-btn"
+              onclick="setScheduleType('decreasing')"
+              class="schedule-type-btn flex items-start gap-2.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 text-left transition cursor-pointer"
+            >
+              <div class="w-4 h-4 rounded-full border-2 border-slate-300 bg-white mt-0.5 shrink-0"></div>
+              <div>
+                <div class="text-sm font-bold text-slate-900">Убывающий</div>
+                <div class="text-xs text-slate-600 mt-0.5">Постепенное снижение нагрузки к концу срока</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Правая колонка: Результаты расчета -->
+      <div class="lg:col-span-5 bg-agro-dark text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-agro-primary/40">
+        <div class="flex items-center justify-between pb-5 border-b border-white/15">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Предварительный расчет</span>
+            <h3 id="calc-selected-title" class="text-lg font-bold text-white mt-1">Техника по выбранным параметрам</h3>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30">
+            Субсидия учтена
+          </span>
+        </div>
+
+        <!-- Главная цифра: Ежемесячный платеж -->
+        <div class="py-6 border-b border-white/15">
+          <div id="calc-payment-subtitle" class="text-sm text-slate-300 mb-1">Среднемесячный платеж (с учетом сезонности)</div>
+          <div class="flex items-baseline gap-2">
+            <span id="res-monthly-payment" class="text-3xl sm:text-4xl font-extrabold text-amber-400 tracking-tight">284 900 ₽</span>
+            <span class="text-slate-400 text-sm">/ мес.</span>
+          </div>
+          <p id="calc-seasonal-note" class="text-xs text-emerald-300 mt-2">
+            * В межсезонье (январь–июль) платеж составит ~114 000 ₽/мес., в период уборки — выше.
+          </p>
+        </div>
+
+        <!-- Детализация цифр -->
+        <div class="py-5 space-y-3.5 text-sm">
+          <div class="flex justify-between items-center">
+            <span class="text-slate-300">Сумма авансового платежа:</span>
+            <span id="res-advance-amount" class="font-bold text-white">3 700 000 ₽</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-slate-300">Сумма финансирования:</span>
+            <span id="res-financed-amount" class="font-bold text-white">14 800 000 ₽</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-slate-300">Удорожание в год / за срок:</span>
+            <span id="res-markup-info" class="font-bold text-emerald-400">3,9% в год (2 886 000 ₽)</span>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/10 border border-white/15 mt-2">
+            <div class="flex justify-between items-center">
+              <span class="text-slate-200 font-medium">Налоговая выгода (НДС + прибыль):</span>
+              <span id="res-tax-saving" class="text-lg font-extrabold text-emerald-400">6 660 000 ₽</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-1">
+              Возврат НДС 20% и уменьшение налогооблагаемой базы по налогу на прибыль за счет отнесения лизинговых платежей на расходы.
+            </p>
+          </div>
+        </div>
+
+        <!-- Кнопка переноса расчета в заявку -->
+        <button
+          type="button"
+          onclick="transferCalcToForm()"
+          class="w-full py-4 px-6 rounded-2xl bg-agro-accent hover:bg-agro-accentHover text-white font-bold text-base shadow-lg transition flex items-center justify-center gap-2 cursor-pointer mt-2"
+        >
+          <span>Получить точный график платежей</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+        <p class="text-center text-xs text-slate-400 mt-3">
+          Расчет носит информационный характер и не является публичной офертой
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 6. ФОРМА ОБРАТНОЙ СВЯЗИ / ЗАЯВКИ ==================== -->
+  <section id="application" class="py-16 sm:py-24 bg-slate-100 border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+        <!-- Левая информационная панель -->
+        <div class="lg:col-span-5 bg-agro-primary text-white p-8 sm:p-10 flex flex-col justify-between">
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-white/15 text-amber-300 text-xs font-bold uppercase tracking-wider mb-4">
+              Экспресс-одобрение
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold leading-tight mb-4">
+              Оставьте заявку на подбор техники и расчет лизинга
+            </h2>
+            <p class="text-emerald-100 text-sm leading-relaxed mb-8">
+              Персональный менеджер агронаправления подготовит 3 варианта коммерческого предложения с учетом региональных субсидий и сезонности вашего хозяйства.
+            </p>
+
+            <ul class="space-y-4 text-sm">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Подбор новой и проверенной техники с наработкой по всей стране</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Согласование индивидуального графика выплат под уборку урожая</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Льготное страхование КАСКО и доставка тралом в хозяйство</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="pt-8 mt-8 border-t border-white/15">
+            <div class="text-xs text-emerald-200 mb-1">Горячая линия для аграриев:</div>
+            <a href="tel:+78005553489" class="text-xl font-extrabold text-white hover:text-amber-300 transition">
+              8 (800) 555-34-89
+            </a>
+          </div>
+        </div>
+
+        <!-- Правая панель: Форма -->
+        <div class="lg:col-span-7 p-8 sm:p-10">
+          <form id="leasing-application-form" class="space-y-5">
+            <div>
+              <label for="form-equipment" class="block text-sm font-bold text-slate-800 mb-1.5">
+                Выбранная техника или параметры расчета
+              </label>
+              <input
+                type="text"
+                id="form-equipment"
+                name="equipment"
+                placeholder="Например: Трактор John Deere 8R 340 или запрос на подбор"
+                class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="form-name" class="block text-sm font-bold text-slate-800 mb-1.5">
+                  Ваше имя <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="form-name"
+                  name="name"
+                  required
+                  placeholder="Иван Петрович"
+                  class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20"
+                />
+              </div>
+
+              <div>
+                <label for="form-phone" class="block text-sm font-bold text-slate-800 mb-1.5">
+                  Телефон <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="form-phone"
+                  name="phone"
+                  required
+                  placeholder="+7 (999) 123-45-67"
+                  class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="form-company" class="block text-sm font-bold text-slate-800 mb-1.5">
+                  Наименование хозяйства / ИНН
+                </label>
+                <input
+                  type="text"
+                  id="form-company"
+                  name="company"
+                  placeholder="КФХ «Нива» или ИНН"
+                  class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20"
+                />
+              </div>
+
+              <div>
+                <label for="form-region" class="block text-sm font-bold text-slate-800 mb-1.5">
+                  Регион поставки
+                </label>
+                <input
+                  type="text"
+                  id="form-region"
+                  name="region"
+                  placeholder="Краснодарский край, Алтай..."
+                  class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="form-comment" class="block text-sm font-bold text-slate-800 mb-1.5">
+                Дополнительные пожелания (необязательно)
+              </label>
+              <textarea
+                id="form-comment"
+                name="comment"
+                rows="2"
+                placeholder="Укажите желаемый размер аванса, срок или потребность в навесном оборудовании"
+                class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-agro-primary focus:ring-2 focus:ring-agro-primary/20"
+              ></textarea>
+            </div>
+
+            <div class="flex items-start gap-2.5">
+              <input type="checkbox" id="form-consent" required checked class="mt-1 w-4 h-4 accent-agro-primary rounded" />
+              <label for="form-consent" class="text-xs text-slate-500 leading-normal">
+                Я соглашаюсь на обработку персональных данных и получение расчета коммерческого предложения по лизингу.
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-4 px-6 rounded-2xl bg-agro-primary hover:bg-agro-hover text-white font-bold text-base shadow-md transition cursor-pointer"
+            >
+              Отправить заявку на расчет
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ПОДВАЛ (FOOTER) ==================== -->
+  <footer class="bg-slate-900 text-slate-300 pt-14 pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10 border-b border-slate-800">
+        <!-- Колонка 1: Бренд -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-agro-primary flex items-center justify-center text-white">
+              <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m0-18c-2.5 2-4 5-4 8s1.5 6 4 8m0-16c2.5 2 4 5 4 8s-1.5 6-4 8" />
+              </svg>
+            </div>
+            <span class="text-xl font-extrabold text-white">АгроТех<span class="text-emerald-400">Инвест</span></span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-4">
+            Специализированный лизинговый брокер и поставщик сельскохозяйственной техники для фермерских хозяйств и агрохолдингов.
+          </p>
+          <p class="text-xs text-slate-500">
+            ООО «АгроТехИнвест» • ИНН 7704829104 • ОГРН 1187746590211
+          </p>
+        </div>
+
+        <!-- Колонка 2: Разделы -->
+        <div>
+          <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Навигация</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#catalog" class="hover:text-amber-400 transition">Каталог сельхозтехники</a></li>
+            <li><a href="#conditions" class="hover:text-amber-400 transition">Условия покупки в лизинг</a></li>
+            <li><a href="#calculator" class="hover:text-amber-400 transition">Калькулятор платежей</a></li>
+            <li><a href="#application" class="hover:text-amber-400 transition">Подать онлайн-заявку</a></li>
+          </ul>
+        </div>
+
+        <!-- Колонка 3: Категории техники -->
+        <div>
+          <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Категории техники</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#catalog" onclick="selectCategoryFromFooter('tractors')" class="hover:text-amber-400 transition">Колесные и гусеничные тракторы</a></li>
+            <li><a href="#catalog" onclick="selectCategoryFromFooter('combines')" class="hover:text-amber-400 transition">Зерно- и кормоуборочные комбайны</a></li>
+            <li><a href="#catalog" onclick="selectCategoryFromFooter('seeding')" class="hover:text-amber-400 transition">Посевные комплексы и дисковые бороны</a></li>
+            <li><a href="#catalog" onclick="selectCategoryFromFooter('sprayers')" class="hover:text-amber-400 transition">Опрыскиватели и телескопические погрузчики</a></li>
+          </ul>
+        </div>
+
+        <!-- Колонка 4: Контакты -->
+        <div>
+          <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Контакты</h4>
+          <ul class="space-y-3 text-sm">
+            <li>
+              <a href="tel:+78005553489" class="text-lg font-bold text-white hover:text-amber-400 transition">
+                8 (800) 555-34-89
+              </a>
+              <span class="block text-xs text-slate-400">Ежедневно с 08:00 до 20:00</span>
+            </li>
+            <li class="text-slate-400">
+              <span class="text-white font-medium">Email:</span> info@agrotech-invest.ru
+            </li>
+            <li class="text-slate-400">
+              <span class="text-white font-medium">Центральный офис:</span> г. Краснодар, ул. Красная, д. 176, БЦ «АгроПлаза», оф. 402
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        <p>© 2026 ООО «АгроТехИнвест». Все права защищены.</p>
+        <p>Представленные на сайте цены и расчеты носят ознакомительный характер.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== МОДАЛЬНОЕ ОКНО: ПОДРОБНО О ТЕХНИКЕ ==================== -->
+  <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl border border-slate-200 my-8 animate-fade-in">
+      <!-- Шапка модального окна -->
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-50 border-b border-slate-200">
+        <span id="modal-category-badge" class="px-3 py-1 rounded-full bg-agro-light text-agro-primary text-xs font-bold">
+          Категория
+        </span>
+        <button onclick="closeDetailModal()" aria-label="Закрыть окно" class="p-2 rounded-xl text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition cursor-pointer">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Контент модального окна -->
+      <div class="p-6 sm:p-8 max-h-[82vh] overflow-y-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-7">
+          <!-- Левая часть: Фото и лизинговый блок -->
+          <div class="lg:col-span-5 space-y-5">
+            <div class="rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 aspect-[4/3] relative">
+              <img id="modal-img" src="" alt="" class="w-full h-full object-cover" />
+              <div id="modal-year-badge" class="absolute top-3 left-3 px-3 py-1 rounded-lg bg-slate-900/80 text-white text-xs font-bold backdrop-blur-sm">
+                2026 г.в.
+              </div>
+              <button
+                id="modal-toggle-view-btn"
+                type="button"
+                class="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg bg-white/90 hover:bg-white text-slate-900 text-xs font-bold shadow backdrop-blur-sm transition cursor-pointer"
+              >
+                Показать схему
+              </button>
+            </div>
+            <!-- Кнопки действий в модальном окне -->
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+              <button
+                id="modal-calc-btn"
+                type="button"
+                class="flex-1 py-3.5 px-5 rounded-xl bg-agro-accent hover:bg-agro-accentHover text-white font-bold text-sm shadow-md transition cursor-pointer"
+              >
+                Рассчитать лизинг
+              </button>
+              <button
+                id="modal-order-btn"
+                type="button"
+                class="flex-1 py-3.5 px-5 rounded-xl bg-agro-primary hover:bg-agro-hover text-white font-bold text-sm shadow-md transition cursor-pointer"
+              >
+                Оформить заявку
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== МОДАЛЬНОЕ ОКНО: ЗАКАЗАТЬ ЗВОНОК / УСПЕШНАЯ ОТПРАВКА ==================== -->
+  <div id="callback-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200 animate-fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="callback-modal-title" class="text-xl font-extrabold text-slate-900">Заказать обратный звонок</h3>
+        <button onclick="closeCallbackModal()" aria-label="Закрыть" class="p-2 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <p class="text-sm text-slate-600 mb-5">
+        Оставьте ваш номер телефона — специалист по агролизингу перезвонит в течение 10 минут и проконсультирует по условиям.
+      </p>
+      <form id="quick-callback-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Ваше имя</label>
+          <input type="text" required placeholder="Александр" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm focus:outline-none focus:border-agro-primary" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Номер телефона</label>
+          <input type="tel" required placeholder="+7 (999) 000-00-00" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm focus:outline-none focus:border-agro-primary" />
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-agro-primary hover:bg-agro-hover text-white font-bold text-sm shadow transition cursor-pointer">
+          Жду звонка специалиста
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ (TOAST / MESSAGE BOX) ==================== -->
+  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 hidden max-w-md bg-agro-dark text-white px-5 py-4 rounded-2xl shadow-2xl border border-emerald-500/40 flex items-start gap-3.5 animate-fade-in">
+    <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <div>
+      <h4 id="toast-title" class="font-bold text-sm text-white">Заявка успешно принята!</h4>
+      <p id="toast-message" class="text-xs text-slate-300 mt-1 leading-relaxed">
+        Менеджер свяжется с вами в ближайшее время и подготовит график платежей.
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ЛОГИКА ==================== -->
+  <script>
+    /**
+     * База данных сельскохозяйственной техники (8 моделей, каждая строго соответствует своему типу):
+     * 1. Колесный трактор высокой мощности (John Deere 8R 340)
+     * 2. Гусеничный трактор (John Deere 9RX 640)
+     * 3. Зерноуборочный комбайн с жаткой (CLAAS LEXION 8700)
+     * 4. Кормоуборочный комбайн-измельчитель (CLAAS JAGUAR 970)
+     * 5. Посевной комплекс в сцепке с трактором (Amazone Cirrus 6003-2)
+     * 6. Дисковая борона / почвообрабатывающий агрегат (Pöttinger Terradisc 6001 T)
+     * 7. Самоходный штанговый опрыскиватель с развернутыми штангами (Equipment Technologies / Apache AS1240)
+     * 8. Сельскохозяйственный телескопический погрузчик (Manitou MLT-X 735 T LSU)
+     */
+    const EQUIPMENT_DATA = [
+      {
+        id: 'jd-8r-340',
+        category: 'tractors',
+        categoryName: 'Тракторы • Колесный',
+        svgType: 'wheeled-tractor',
+        name: 'Колесный трактор John Deere 8R 340',
+        year: 2026,
+        price: 29500000,
+        shortDesc: 'Мощный колесный трактор классической компоновки для тяжелых тяговых работ, вспашки и посева.',
+        fullDesc: 'Колесный трактор John Deere 8R 340 оснащен 9-литровым двигателем PowerTech PSS мощностью 340 л.с., бесступенчатой трансмиссией e23 PowerShift и системой навигации AutoTrac. Большие колеса с возможностью сдваивания обеспечивают высокое тяговое усилие и минимальное уплотнение почвы.',
+        keySpec1Label: 'Мощность / Тип',
+        keySpec1Value: '340 л.с. • 4х4',
+        keySpec2Label: 'Трансмиссия',
+        keySpec2Value: 'e23 PowerShift',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/John_Deere_8R_410_tractor_(Belagro-2021)_2.jpg?width=900',
+        specs: [
+          { label: 'Тип ходовой части', value: 'Колесный (4WD), с возможностью установки спаренных шин' },
+          { label: 'Двигатель', value: 'John Deere PowerTech PSS, 9.0 л, 6 цилиндров' },
+          { label: 'Номинальная мощность', value: '340 л.с. (макс. 374 л.с. с IPM)' },
+          { label: 'Трансмиссия', value: 'e23 PowerShift (23 вперед / 11 назад)' },
+          { label: 'Грузоподъемность задней навески', value: '12 124 кг' },
+          { label: 'Производительность гидросистемы', value: '227 л/мин (опция 321 л/мин)' },
+          { label: 'Год выпуска / Состояние', value: '2026 г., новый, с предпродажной подготовкой' }
+        ]
+      },
+      {
+        id: 'jd-9rx-640',
+        category: 'tractors',
+        categoryName: 'Тракторы • Гусеничный',
+        svgType: 'tracked-tractor',
+        name: 'Гусеничный трактор John Deere 9RX 640',
+        year: 2026,
+        price: 48900000,
+        shortDesc: 'Сверхмощный 4-гусеничный трактор с шарнирно-сочлененной рамой для сверхтяжелой почвообработки.',
+        fullDesc: 'Четырехгусеничный трактор John Deere 9RX 640 создан для максимальной производительности на больших площадях. Четыре независимых треугольных гусеничных движителя обеспечивают огромную площадь контакта с грунтом, отсутствие пробуксовки на переувлажненной почве и ранний выход в поле весной.',
+        keySpec1Label: 'Мощность / Тип',
+        keySpec1Value: '640 л.с. • Гусеничный',
+        keySpec2Label: 'Ширина гусениц',
+        keySpec2Value: '762 мм (4 контура)',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/John_Deere_9RX_640_Agritechnica_2023_(DSC06207).jpg?width=900',
+        specs: [
+          { label: 'Тип ходовой части', value: '4-гусеничный с треугольными обводами и шарнирной рамой' },
+          { label: 'Двигатель', value: 'John Deere JD14, 13.6 л, турбодизель' },
+          { label: 'Номинальная мощность', value: '640 л.с. (макс. 691 л.с.)' },
+          { label: 'Трансмиссия', value: 'e18 PowerShift с автоматическим управлением Efficiency Manager' },
+          { label: 'Ширина гусеничной ленты', value: '762 мм (опция 914 мм)' },
+          { label: 'Производительность гидросистемы', value: '435 л/мин (сдвоенный насос)' },
+          { label: 'Год выпуска / Состояние', value: '2026 г., новый, гарантия официального дилера' }
+        ]
+      },
+      {
+        id: 'claas-lexion-8700',
+        category: 'combines',
+        categoryName: 'Комбайны • Зерноуборочный',
+        svgType: 'grain-combine',
+        name: 'Зерноуборочный комбайн CLAAS LEXION 8700',
+        year: 2026,
+        price: 44800000,
+        shortDesc: 'Высокопроизводительный зерноуборочный комбайн с жаткой VARIO для уборки пшеницы, ячменя и рапса.',
+        fullDesc: 'Зерноуборочный комбайн CLAAS LEXION 8700 объединяет гибридную систему обмолота APS SYNFLOW HYBRID и автоматизацию CEMOS AUTOMATIC. Оснащен широкой зерновой жаткой с мотовилом, вместительным бункером на 15 000 л и высокоскоростным выгрузным шнеком.',
+        keySpec1Label: 'Мощность',
+        keySpec1Value: '571 л.с.',
+        keySpec2Label: 'Бункер / Жатка',
+        keySpec2Value: '15 000 л / 10,8 м',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Claas_Lexion_8700_02.jpg?width=900',
+        specs: [
+          { label: 'Назначение', value: 'Уборка зерновых, зернобобовых и масличных культур' },
+          { label: 'Двигатель', value: 'Mercedes-Benz OM 473 LA, 15.6 л, 571 л.с.' },
+          { label: 'Система обмолота и сепарации', value: 'APS SYNFLOW HYBRID (2 ротора ROTO PLUS)' },
+          { label: 'Объем зернового бункера', value: '15 000 л' },
+          { label: 'Скорость выгрузки зерна', value: '180 л/с' },
+          { label: 'Зерновая жатка в комплекте', value: 'CLAAS VARIO 1080 (ширина захвата 10,8 м) с тележкой' },
+          { label: 'Год выпуска / Состояние', value: '2026 г., новый, гарантия 24 месяца' }
+        ]
+      },
+      {
+        id: 'claas-jaguar-970',
+        category: 'combines',
+        categoryName: 'Комбайны • Кормоуборочный',
+        svgType: 'forage-harvester',
+        name: 'Кормоуборочный комбайн CLAAS JAGUAR 970',
+        year: 2026,
+        price: 38400000,
+        shortDesc: 'Самоходный силосоуборочный комбайн-измельчитель для заготовки сенажа и кукурузного силоса.',
+        fullDesc: 'CLAAS JAGUAR 970 — эталон производительности в кормозаготовке. Оснащен ножевым барабаном V-MAX, доизмельчителем зерен SHREDLAGE и поворотным силосопроводом для точной загрузки транспортных прицепов на ходу.',
+        keySpec1Label: 'Мощность',
+        keySpec1Value: '790 л.с.',
+        keySpec2Label: 'Барабан',
+        keySpec2Value: 'V-MAX (28 ножей)',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Claas_Jaguar_970.JPG?width=900',
+        specs: [
+          { label: 'Назначение', value: 'Подбор и измельчение трав на сенаж, уборка кукурузы на силос' },
+          { label: 'Двигатель', value: 'MAN D2862 V12, 24.2 л, 790 л.с.' },
+          { label: 'Измельчающий аппарат', value: 'Барабан V-MAX шириной 750 мм, автоматическая заточка ножей' },
+          { label: 'Корн-крекер', value: 'MCC SHREDLAGE для интенсивного расщепления зерна кукурузы' },
+          { label: 'Адаптеры в комплекте', value: 'Подборщик трав PICK UP 300 и кукурузная жатка ORBIS 750' },
+          { label: 'Система внесения консервантов', value: 'Интегрированный бак ACTISILER 37' },
+          { label: 'Год выпуска / Состояние', value: '2026 г., новый, готов к сезону кормозаготовки' }
+        ]
+      },
+      {
+        id: 'amazone-cirrus-6003',
+        category: 'seeding',
+        categoryName: 'Посевная и почвообработка',
+        svgType: 'seed-drill',
+        name: 'Посевной комплекс Amazone Cirrus 6003-2',
+        year: 2026,
+        price: 14200000,
+        shortDesc: 'Широкозахватный пневматический посевной комплекс в сцепке с трактором для скоростного посева.',
+        fullDesc: 'Amazone Cirrus 6003-2 выполняет предпосевную подготовку, полосовое прикатывание и точный высев семян с одновременным внесением удобрений за один проход на скорости до 16 км/ч. Двухсекционный напорный бункер 4000 л обеспечивает высокую сменную выработку.',
+        keySpec1Label: 'Ширина захвата',
+        keySpec1Value: '6,0 м (36 рядов)',
+        keySpec2Label: 'Бункер',
+        keySpec2Value: '4 000 л',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Seeder_@_Amazone_tractor_demo_@_Innov-Agri_2016_@_Outarville_(29492549626).jpg?width=900',
+        specs: [
+          { label: 'Тип агрегата', value: 'Прицепной пневматический посевной комплекс' },
+          { label: 'Рабочая ширина захвата', value: '6,0 м (транспортная ширина 3,0 м)' },
+          { label: 'Объем двухсекционного бункера', value: '4 000 л (соотношение 60:40 семена/удобрения)' },
+          { label: 'Высевающие сошники', value: 'Двухдисковые TwinTeC+ с давлением до 100 кг' },
+          { label: 'Междурядье', value: '16,6 см (36 сошников)' },
+          { label: 'Требуемая мощность трактора', value: 'от 240 л.с.' },
+          { label: 'Управление', value: 'ISOBUS терминал AmaTron 4 с контролем высева' }
+        ]
+      },
+      {
+        id: 'pottinger-terradisc-6001',
+        category: 'seeding',
+        categoryName: 'Посевная и почвообработка',
+        svgType: 'disc-harrow',
+        name: 'Дисковая борона Pöttinger Terradisc 6001 T',
+        year: 2026,
+        price: 6850000,
+        shortDesc: 'Короткая прицепная дисковая борона для лущения стерни и интенсивного перемешивания пожнивных остатков.',
+        fullDesc: 'Pöttinger Terradisc 6001 T оснащена двумя рядами вырезных сферических дисков диаметром 580 мм с системой TWIN ARM, обеспечивающей стабильную глубину обработки от 5 до 15 см даже на тяжелых сухих почвах с большим количеством соломы.',
+        keySpec1Label: 'Ширина захвата',
+        keySpec1Value: '6,0 м (48 дисков)',
+        keySpec2Label: 'Глубина обработки',
+        keySpec2Value: '5 – 15 см',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Deutz-Fahr_Agrotron_120_with_Pöttinger_Terradisc,_Werktuigendagen_2005_c.jpg?width=900',
+        specs: [
+          { label: 'Тип агрегата', value: 'Прицепная короткая дисковая борона (дискатор)' },
+          { label: 'Рабочая ширина захвата', value: '6,0 м' },
+          { label: 'Количество и диаметр дисков', value: '48 вырезных дисков Ø 580 мм (толщина 5 мм)' },
+          { label: 'Рабочая глубина обработки', value: '5 – 15 см' },
+          { label: 'Прикатывающий каток', value: 'Двойной тандемный каток Tandem CONOROLL' },
+          { label: 'Требуемая мощность трактора', value: 'от 220 до 300 л.с.' },
+          { label: 'Рабочая скорость', value: '12 – 18 км/ч' }
+        ]
+      },
+      {
+        id: 'apache-as1240-sprayer',
+        category: 'sprayers',
+        categoryName: 'Опрыскиватели и погрузчики',
+        svgType: 'self-propelled-sprayer',
+        name: 'Самоходный опрыскиватель Apache AS1240',
+        year: 2026,
+        price: 25900000,
+        shortDesc: 'Самоходный штанговый опрыскиватель с развернутыми штангами 36 м и высоким клиренсом для защиты растений.',
+        fullDesc: 'Самоходный штанговый опрыскиватель с механическим приводом, баком из нержавеющей стали на 4 500 л и развернутыми гидравлическими штангами шириной 36 метров. Система пофорсуночного отключения по GPS исключает перекрытия и экономит до 15% средств защиты растений.',
+        keySpec1Label: 'Ширина штанги',
+        keySpec1Value: '36,0 м',
+        keySpec2Label: 'Бак / Клиренс',
+        keySpec2Value: '4 500 л / 1,52 м',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Self_Propelled_Sprayer_made_by_Equipment_Technologies.jpg?width=900',
+        specs: [
+          { label: 'Тип машины', value: 'Самоходный штанговый опрыскиватель' },
+          { label: 'Двигатель', value: 'Cummins QSB 6.7 л, 300 л.с.' },
+          { label: 'Объем основного бака', value: '4 540 л (нержавеющая сталь) + бак промывки 450 л' },
+          { label: 'Ширина штанги', value: '36,5 м с ультразвуковой стабилизацией высоты' },
+          { label: 'Дорожный просвет (клиренс)', value: '1 524 мм (обработка подсолнечника и кукурузы)' },
+          { label: 'Регулировка колеи', value: 'Гидравлическая из кабины, 3,05 – 4,06 м' },
+          { label: 'Навигация и контроль норм', value: 'Raven Viper 4+ с автопилотом и посекционным отключением' }
+        ]
+      },
+      {
+        id: 'manitou-mlt-x-735',
+        category: 'sprayers',
+        categoryName: 'Опрыскиватели и погрузчики',
+        svgType: 'telehandler',
+        name: 'Телескопический погрузчик Manitou MLT-X 735',
+        year: 2026,
+        price: 11800000,
+        shortDesc: 'Сельскохозяйственный телескопический погрузчик со стрелой 6,9 м, зерновым ковшом и вилами для тюков.',
+        fullDesc: 'Manitou MLT-X 735 T LSU разработан специально для работы на зернотоках, животноводческих фермах и складах. Телескопическая стрела поднимает груз до 3,5 тонн на высоту 6,9 м, а крабовый ход колес обеспечивает исключительную маневренность в ангарах.',
+        keySpec1Label: 'Грузоподъемность',
+        keySpec1Value: '3 500 кг',
+        keySpec2Label: 'Вылет стрелы',
+        keySpec2Value: '6,9 м',
+        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Manitou_Telehandler_parked_by_farm_track_-_geograph.org.uk_-_5274054.jpg?width=900',
+        specs: [
+          { label: 'Тип машины', value: 'Сельскохозяйственный телескопический погрузчик 4х4' },
+          { label: 'Максимальная грузоподъемность', value: '3 500 кг' },
+          { label: 'Максимальная высота подъема стрелы', value: '6,90 м' },
+          { label: 'Двигатель', value: 'Deutz 4.1 л, 136 л.с. с реверсивным вентилятором' },
+          { label: 'Гидравлическая система', value: 'Аксиально-поршневой насос 150 л/мин, джойстик JSM' },
+          { label: 'Навесное оборудование в комплекте', value: 'Зерновой ковш 2 500 л, паллетные вилы и захват для тюков' },
+          { label: 'Год выпуска / Состояние', value: '2026 г., новый, в наличии на складе' }
+        ]
+      }
+    ];
+
+    // Текущее состояние фильтров, режима отображения и калькулятора
+    let currentCategory = 'all';
+    let currentSearch = '';
+    let modalShowingSvg = false;
+    let calcState = {
+      modelId: 'custom',
+      price: 18500000,
+      advancePercent: 20,
+      termYears: 5,
+      scheduleType: 'seasonal' // 'seasonal' | 'annuity' | 'decreasing'
+    };
+
+    /**
+     * Форматирование чисел в российский денежный формат (например: 18 500 000 ₽)
+     */
+    function formatCurrency(num) {
+      return Math.round(num).toLocaleString('ru-RU') + ' ₽';
+    }
+
+    /**
+     * Расчет ориентировочного минимального платежа для карточки каталога
+     * (при авансе 20%, сроке 7 лет и льготной ставке)
+     */
+    function calcCardMinMonthly(price) {
+      const financed = price * 0.80;
+      const totalWithMarkup = financed * (1 + 0.039 * 7);
+      return Math.round(totalWithMarkup / 84);
+    }
+
+    /**
+     * Генерация детализированного векторного SVG-рендера для каждого из 8 типов сельхозтехники.
+     * Используется как гарантированный fallback при ошибке загрузки внешнего фото, а также для режима «Схема».
+     */
+    function buildMachineSvgDataUri(svgType, title) {
+      let machineDrawing = '';
+      let skyGrad = ['#e0f2fe', '#f0fdf4'];
+      let groundColor = '#3f6212';
+
+      switch (svgType) {
+        case 'wheeled-tractor':
+          // Колесный трактор: большое заднее колесо, меньшее переднее, кабина, выхлопная труба
+          machineDrawing = `
+            <rect x="270" y="210" width="135" height="115" rx="14" fill="#15803d" stroke="#0f291e" stroke-width="5"/>
+            <rect x="285" y="225" width="105" height="75" rx="8" fill="#bae6fd" stroke="#0f291e" stroke-width="4"/>
+            <path d="M405 255 L545 270 L545 345 L405 345 Z" fill="#16a34a" stroke="#0f291e" stroke-width="5"/>
+            <rect x="435" y="205" width="14" height="65" rx="4" fill="#1e293b"/>
+            <rect x="545" y="295" width="26" height="45" rx="5" fill="#334155"/>
+            <circle cx="315" cy="375" r="78" fill="#1e293b" stroke="#0f172a" stroke-width="6"/>
+            <circle cx="315" cy="375" r="42" fill="#facc15" stroke="#0f172a" stroke-width="5"/>
+            <circle cx="315" cy="375" r="14" fill="#1e293b"/>
+            <circle cx="500" cy="395" r="56" fill="#1e293b" stroke="#0f172a" stroke-width="6"/>
+            <circle cx="500" cy="395" r="28" fill="#facc15" stroke="#0f172a" stroke-width="4"/>
+          `;
+          break;
+
+        case 'tracked-tractor':
+          // Гусеничный трактор 9RX: 4 треугольных гусеничных обвода, шарнирная рама, массивный капот
+          machineDrawing = `
+            <rect x="260" y="205" width="125" height="110" rx="12" fill="#15803d" stroke="#0f291e" stroke-width="5"/>
+            <rect x="274" y="220" width="96" height="70" rx="8" fill="#bae6fd" stroke="#0f291e" stroke-width="4"/>
+            <rect x="380" y="305" width="32" height="45" fill="#334155"/>
+            <path d="M412 245 L565 262 L565 348 L412 348 Z" fill="#16a34a" stroke="#0f291e" stroke-width="5"/>
+            <rect x="442" y="195" width="14" height="65" rx="4" fill="#1e293b"/>
+            <!-- Задняя треугольная гусеница -->
+            <polygon points="245,435 375,435 310,350" fill="#1e293b" stroke="#0f172a" stroke-width="14" stroke-linejoin="round"/>
+            <circle cx="310" cy="368" r="22" fill="#facc15"/>
+            <circle cx="255" cy="426" r="18" fill="#facc15"/>
+            <circle cx="365" cy="426" r="18" fill="#facc15"/>
+            <!-- Передняя треугольная гусеница -->
+            <polygon points="435,435 565,435 500,350" fill="#1e293b" stroke="#0f172a" stroke-width="14" stroke-linejoin="round"/>
+            <circle cx="500" cy="368" r="22" fill="#facc15"/>
+            <circle cx="445" cy="426" r="18" fill="#facc15"/>
+            <circle cx="555" cy="426" r="18" fill="#facc15"/>
+          `;
+          break;
+
+        case 'grain-combine':
+          // Зерноуборочный комбайн с жаткой и выгрузным шнеком
+          groundColor = '#ca8a04';
+          machineDrawing = `
+            <path d="M230 230 L450 230 L485 280 L485 365 L230 365 Z" fill="#65a30d" stroke="#1a2e05" stroke-width="5"/>
+            <rect x="245" y="210" width="185" height="32" rx="6" fill="#f8fafc" stroke="#1e293b" stroke-width="4"/>
+            <rect x="425" y="235" width="65" height="75" rx="8" fill="#bae6fd" stroke="#1e293b" stroke-width="4"/>
+            <!-- Выгрузной шнек -->
+            <line x1="330" y1="245" x2="175" y2="195" stroke="#dc2626" stroke-width="14" stroke-linecap="round"/>
+            <!-- Наклонная камера и жатка с мотовилом -->
+            <polygon points="480,320 555,380 555,415 470,365" fill="#334155"/>
+            <rect x="545" y="375" width="95" height="55" rx="8" fill="#dc2626" stroke="#1e293b" stroke-width="4"/>
+            <circle cx="595" cy="375" r="34" fill="none" stroke="#facc15" stroke-width="5" stroke-dasharray="14 8"/>
+            <circle cx="415" cy="390" r="62" fill="#1e293b" stroke="#0f172a" stroke-width="6"/>
+            <circle cx="415" cy="390" r="30" fill="#dc2626"/>
+            <circle cx="275" cy="410" r="42" fill="#1e293b" stroke="#0f172a" stroke-width="5"/>
+            <circle cx="275" cy="410" r="20" fill="#dc2626"/>
+          `;
+          break;
+
+        case 'forage-harvester':
+          // Кормоуборочный комбайн-измельчитель с высоким силосопроводом и подборщиком
+          machineDrawing = `
+            <path d="M255 245 L445 245 L475 290 L475 365 L255 365 Z" fill="#65a30d" stroke="#1a2e05" stroke-width="5"/>
+            <rect x="415" y="240" width="65" height="72" rx="8" fill="#bae6fd" stroke="#1e293b" stroke-width="4"/>
+            <!-- Дугообразный силосопровод -->
+            <path d="M350 245 Q 320 155 175 185" fill="none" stroke="#f8fafc" stroke-width="16" stroke-linecap="round"/>
+            <path d="M350 245 Q 320 155 175 185" fill="none" stroke="#65a30d" stroke-width="8" stroke-linecap="round"/>
+            <!-- Подборщик / роторная жатка спереди -->
+            <rect x="485" y="365" width="90" height="55" rx="10" fill="#15803d" stroke="#0f291e" stroke-width="4"/>
+            <circle cx="530" cy="395" r="26" fill="#facc15" stroke="#1e293b" stroke-width="4"/>
+            <circle cx="410" cy="392" r="58" fill="#1e293b" stroke="#0f172a" stroke-width="6"/>
+            <circle cx="410" cy="392" r="28" fill="#f8fafc"/>
+            <circle cx="285" cy="410" r="40" fill="#1e293b" stroke="#0f172a" stroke-width="5"/>
+            <circle cx="285" cy="410" r="18" fill="#f8fafc"/>
+          `;
+          break;
+
+        case 'seed-drill':
+          // Посевной комплекс в сцепке с трактором
+          groundColor = '#78350f';
+          machineDrawing = `
+            <!-- Трактор-тягач справа -->
+            <rect x="445" y="255" width="85" height="72" rx="8" fill="#15803d" stroke="#0f291e" stroke-width="4"/>
+            <rect x="455" y="265" width="62" height="42" rx="5" fill="#bae6fd"/>
+            <path d="M530 282 L615 292 L615 342 L530 342 Z" fill="#16a34a" stroke="#0f291e" stroke-width="4"/>
+            <circle cx="475" cy="365" r="48" fill="#1e293b"/>
+            <circle cx="475" cy="365" r="24" fill="#facc15"/>
+            <circle cx="585" cy="378" r="35" fill="#1e293b"/>
+            <!-- Дышло и посевной комплекс с бункером слева -->
+            <line x1="445" y1="365" x2="380" y2="365" stroke="#334155" stroke-width="8"/>
+            <rect x="235" y="250" width="135" height="90" rx="14" fill="#ea580c" stroke="#1e293b" stroke-width="5"/>
+            <rect x="255" y="232" width="95" height="22" rx="6" fill="#15803d"/>
+            <!-- Ряд высевающих сошников -->
+            <rect x="155" y="355" width="235" height="24" rx="6" fill="#15803d" stroke="#0f291e" stroke-width="4"/>
+            <circle cx="185" cy="396" r="22" fill="#334155"/>
+            <circle cx="235" cy="396" r="22" fill="#334155"/>
+            <circle cx="285" cy="396" r="22" fill="#334155"/>
+            <circle cx="335" cy="396" r="22" fill="#334155"/>
+          `;
+          break;
+
+        case 'disc-harrow':
+          // Дисковая борона с двумя рядами вырезных дисков и прикатывающим катком
+          groundColor = '#713f12';
+          machineDrawing = `
+            <!-- Рама бороны -->
+            <line x1="590" y1="345" x2="470" y2="345" stroke="#dc2626" stroke-width="10" stroke-linecap="round"/>
+            <rect x="200" y="315" width="285" height="26" rx="6" fill="#dc2626" stroke="#1e293b" stroke-width="4"/>
+            <rect x="310" y="275" width="85" height="40" rx="6" fill="#f8fafc" stroke="#1e293b" stroke-width="4"/>
+            <!-- Транспортные колеса сверху -->
+            <circle cx="345" cy="275" r="32" fill="#1e293b"/>
+            <circle cx="345" cy="275" r="14" fill="#facc15"/>
+            <!-- Два ряда сферических дисков -->
+            <circle cx="445" cy="382" r="34" fill="#94a3b8" stroke="#1e293b" stroke-width="5"/>
+            <circle cx="395" cy="382" r="34" fill="#94a3b8" stroke="#1e293b" stroke-width="5"/>
+            <circle cx="345" cy="382" r="34" fill="#94a3b8" stroke="#1e293b" stroke-width="5"/>
+            <circle cx="295" cy="382" r="34" fill="#94a3b8" stroke="#1e293b" stroke-width="5"/>
+            <!-- Прикатывающий каток сзади -->
+            <circle cx="215" cy="384" r="32" fill="none" stroke="#1e293b" stroke-width="8" stroke-dasharray="10 6"/>
+          `;
+          break;
+
+        case 'self-propelled-sprayer':
+          // Самоходный опрыскиватель с высоким клиренсом и развернутыми штангами
+          machineDrawing = `
+            <!-- Развернутые штанги во всю ширину -->
+            <line x1="80" y1="275" x2="720" y2="275" stroke="#16a34a" stroke-width="10" stroke-linecap="round"/>
+            <line x1="80" y1="275" x2="290" y2="245" stroke="#15803d" stroke-width="4"/>
+            <line x1="720" y1="275" x2="510" y2="245" stroke="#15803d" stroke-width="4"/>
+            <!-- Форсунки и распыл -->
+            <path d="M110 282 L95 335 M170 282 L155 335 M230 282 L215 335 M570 282 L585 335 M630 282 L645 335 M690 282 L705 335" stroke="#38bdf8" stroke-width="4" stroke-dasharray="6 6"/>
+            <!-- Бак и кабина с высоким клиренсом -->
+            <rect x="285" y="215" width="130" height="85" rx="18" fill="#f8fafc" stroke="#1e293b" stroke-width="5"/>
+            <rect x="420" y="205" width="85" height="90" rx="10" fill="#15803d" stroke="#0f291e" stroke-width="5"/>
+            <rect x="434" y="218" width="58" height="52" rx="6" fill="#bae6fd"/>
+            <rect x="275" y="300" width="245" height="22" rx="6" fill="#1e293b"/>
+            <!-- Высокие узкие колеса -->
+            <circle cx="315" cy="385" r="56" fill="#1e293b" stroke="#0f172a" stroke-width="5"/>
+            <circle cx="315" cy="385" r="26" fill="#facc15"/>
+            <circle cx="485" cy="385" r="56" fill="#1e293b" stroke="#0f172a" stroke-width="5"/>
+            <circle cx="485" cy="385" r="26" fill="#facc15"/>
+          `;
+          break;
+
+        case 'telehandler':
+        default:
+          // Телескопический погрузчик со стрелой и зерновым ковшом
+          machineDrawing = `
+            <!-- Шасси и кабина погрузчика -->
+            <rect x="240" y="285" width="215" height="80" rx="12" fill="#dc2626" stroke="#1e293b" stroke-width="5"/>
+            <rect x="295" y="225" width="105" height="75" rx="10" fill="#1e293b"/>
+            <rect x="307" y="236" width="82" height="54" rx="6" fill="#bae6fd"/>
+            <!-- Телескопическая стрела -->
+            <line x1="265" y1="305" x2="515" y2="215" stroke="#1e293b" stroke-width="22" stroke-linecap="round"/>
+            <line x1="435" y1="244" x2="565" y2="196" stroke="#dc2626" stroke-width="14" stroke-linecap="round"/>
+            <!-- Зерновой ковш на конце стрелы -->
+            <path d="M560 175 L635 195 L615 245 L550 230 Z" fill="#334155" stroke="#0f172a" stroke-width="4"/>
+            <!-- Равные внедорожные колеса 4х4 -->
+            <circle cx="285" cy="382" r="48" fill="#1e293b" stroke="#0f172a" stroke-width="5"/>
+            <circle cx="285" cy="382" r="22" fill="#f8fafc"/>
+            <circle cx="415" cy="382" r="48" fill="#1e293b" stroke="#0f172a" stroke-width="5"/>
+            <circle cx="415" cy="382" r="22" fill="#f8fafc"/>
+          `;
+          break;
+      }
+
+      const safeTitle = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const svgString = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="800" height="520" viewBox="0 0 800 520">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${skyGrad[0]}"/>
+              <stop offset="100%" stop-color="${skyGrad[1]}"/>
+            </linearGradient>
+          </defs>
+          <rect width="800" height="520" fill="url(#sky)"/>
+          <circle cx="680" cy="85" r="42" fill="#fde047" opacity="0.7"/>
+          <path d="M0 420 Q 220 405 460 418 T 800 412 L 800 520 L 0 520 Z" fill="${groundColor}"/>
+          <line x1="0" y1="445" x2="800" y2="445" stroke="#ffffff" stroke-opacity="0.2" stroke-width="3" stroke-dasharray="18 14"/>
+          ${machineDrawing}
+          <rect x="24" y="462" width="752" height="40" rx="10" fill="#0f291e" fill-opacity="0.88"/>
+          <text x="400" y="487" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-size="16" font-weight="700">${safeTitle}</text>
+        </svg>
+      `;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgString.trim());
+    }
+
+    /**
+     * Обработчик ошибки загрузки внешнего изображения — подставляет точный SVG-силуэт данной техники
+     */
+    function handleImageError(imgElement, svgType, title) {
+      imgElement.onerror = null;
+      imgElement.dataset.mode = 'svg';
+      imgElement.src = buildMachineSvgDataUri(svgType, title);
+    }
+
+    /**
+     * Переключение между реальной фотографией и векторной схемой техники прямо в карточке каталога
+     */
+    function toggleCardImageMode(event, itemId) {
+      event.stopPropagation();
+      const item = EQUIPMENT_DATA.find(eq => eq.id === itemId);
+      if (!item) return;
+
+      const img = document.getElementById(`card-img-${itemId}`);
+      const btn = document.getElementById(`card-toggle-${itemId}`);
+      if (!img || !btn) return;
+
+      if (img.dataset.mode === 'svg') {
+        img.dataset.mode = 'photo';
+        img.onerror = function() {
+          handleImageError(this, item.svgType, item.name);
+        };
+        img.src = item.image;
+        btn.textContent = 'Схема';
+      } else {
+        img.dataset.mode = 'svg';
+        img.src = buildMachineSvgDataUri(item.svgType, item.name);
+        btn.textContent = 'Фото';
+      }
+    }
+
+    /**
+     * Отрисовка карточек каталога согласно текущим фильтрам и поиску
+     */
+    function renderCatalog() {
+      const grid = document.getElementById('catalog-grid');
+      const emptyBox = document.getElementById('catalog-empty');
+      const searchLower = currentSearch.trim().toLowerCase();
+
+      const filtered = EQUIPMENT_DATA.filter(item => {
+        const matchCategory = currentCategory === 'all' || item.category === currentCategory;
+        const matchSearch = !searchLower ||
+          item.name.toLowerCase().includes(searchLower) ||
+          item.shortDesc.toLowerCase().includes(searchLower) ||
+          item.categoryName.toLowerCase().includes(searchLower) ||
+          item.keySpec1Value.toLowerCase().includes(searchLower) ||
+          item.keySpec2Value.toLowerCase().includes(searchLower);
+        return matchCategory && matchSearch;
+      });
+
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        grid.classList.add('hidden');
+        emptyBox.classList.remove('hidden');
+        return;
+      }
+
+      grid.classList.remove('hidden');
+      emptyBox.classList.add('hidden');
+
+      filtered.forEach(item => {
+        const minMonthly = calcCardMinMonthly(item.price);
+        const card = document.createElement('article');
+        card.className = 'bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group';
+
+        card.innerHTML = `
+          <div>
+            <!-- Фото техники -->
+            <div class="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+              <img
+                id="card-img-${item.id}"
+                data-mode="photo"
+                src="${item.image}"
+                alt="${item.name}"
+                loading="lazy"
+                onerror="handleImageError(this, '${item.svgType}', '${item.name}')"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-slate-900/80 backdrop-blur-sm text-white text-xs font-semibold">
+                ${item.categoryName}
+              </div>
+              <div class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-emerald-600/90 text-white text-xs font-bold">
+                ${item.year} г.
+              </div>
+              <button
+                id="card-toggle-${item.id}"
+                type="button"
+                onclick="toggleCardImageMode(event, '${item.id}')"
+                title="Переключить между реальным фото и векторной схемой"
+                class="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-white/90 hover:bg-white text-slate-800 text-xs font-bold shadow-sm backdrop-blur-sm transition cursor-pointer"
+              >
+                Схема
+              </button>
+            </div>
+
+            <!-- Контент карточки -->
+            <div class="p-5">
+              <h3 class="text-lg font-extrabold text-slate-900 leading-snug mb-2 group-hover:text-agro-primary transition">
+                ${item.name}
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed mb-4">
+                ${item.shortDesc}
+              </p>
+
+              <!-- Ключевые характеристики -->
+              <div class="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs mb-4">
+                <div>
+                  <span class="block text-slate-400">${item.keySpec1Label}</span>
+                  <span class="font-bold text-slate-800 text-sm">${item.keySpec1Value}</span>
+                </div>
+                <div class="border-l border-slate-200 pl-2.5">
+                  <span class="block text-slate-400">${item.keySpec2Label}</span>
+                  <span class="font-bold text-slate-800 text-sm">${item.keySpec2Value}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Цена и кнопки -->
+          <div class="px-5 pb-5 pt-2 border-t border-slate-100">
+            <div class="flex items-baseline justify-between mb-1">
+              <span class="text-xs text-slate-500">Цена с НДС:</span>
+              <span class="text-base font-extrabold text-slate-900">${formatCurrency(item.price)}</span>
+            </div>
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-agro-primary font-semibold">В лизинг:</span>
+              <span class="text-sm font-extrabold text-agro-primary bg-agro-light px-2.5 py-0.5 rounded-lg">
+                от ${formatCurrency(minMonthly)}/мес.
+              </span>
+            </div>
+
+            <div class="grid grid-cols-5 gap-2">
+              <button
+                type="button"
+                onclick="openDetailModal('${item.id}')"
+                class="col-span-3 py-2.5 px-3 rounded-xl bg-agro-primary hover:bg-agro-hover text-white text-xs sm:text-sm font-bold transition cursor-pointer"
+              >
+                Подробнее
+              </button>
+              <button
+                type="button"
+                onclick="selectModelForCalc('${item.id}')"
+                title="Рассчитать в калькуляторе"
+                class="col-span-2 py-2.5 px-2 rounded-xl bg-slate-100 hover:bg-amber-100 text-slate-800 hover:text-amber-900 text-xs font-bold transition cursor-pointer"
+              >
+                Расчет
+              </button>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    /**
+     * Сброс фильтров каталога
+     */
+    function resetFilters() {
+      currentCategory = 'all';
+      currentSearch = '';
+      document.getElementById('catalog-search').value = '';
+      updateFilterButtonsUI();
+      renderCatalog();
+    }
+
+    /**
+     * Выбор категории из подвала
+     */
+    function selectCategoryFromFooter(category) {
+      currentCategory = category;
+      updateFilterButtonsUI();
+      renderCatalog();
+    }
+
+    /**
+     * Обновление активного стиля кнопок фильтра
+     */
+    function updateFilterButtonsUI() {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.category === currentCategory) {
+          btn.className = 'filter-btn active px-4 py-2.5 rounded-xl text-sm font-semibold bg-agro-primary text-white shadow-sm transition cursor-pointer';
+        } else {
+          btn.className = 'filter-btn px-4 py-2.5 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-agro-primary hover:text-agro-primary transition cursor-pointer';
+        }
+      });
+    }
+
+    /**
+     * Открытие модального окна с подробным описанием техники
+     */
+    function openDetailModal(itemId) {
+      const item = EQUIPMENT_DATA.find(eq => eq.id === itemId);
+      if (!item) return;
+
+      modalShowingSvg = false;
+      document.getElementById('modal-category-badge').textContent = item.categoryName;
+      document.getElementById('modal-year-badge').textContent = `${item.year} г.в.`;
+      document.getElementById('modal-title').textContent = item.name;
+      document.getElementById('modal-description').textContent = item.fullDesc;
+      document.getElementById('modal-price').textContent = formatCurrency(item.price);
+      document.getElementById('modal-monthly').textContent = `от ${formatCurrency(calcCardMinMonthly(item.price))}/мес.`;
+
+      const modalImg = document.getElementById('modal-img');
+      const toggleViewBtn = document.getElementById('modal-toggle-view-btn');
+      toggleViewBtn.textContent = 'Показать схему';
+
+      modalImg.src = item.image;
+      modalImg.alt = item.name;
+      modalImg.onerror = function() {
+        modalShowingSvg = true;
+        toggleViewBtn.textContent = 'Показать фото';
+        handleImageError(this, item.svgType, item.name);
+      };
+
+      toggleViewBtn.onclick = function() {
+        if (modalShowingSvg) {
+          modalShowingSvg = false;
+          toggleViewBtn.textContent = 'Показать схему';
+          modalImg.onerror = function() {
+            modalShowingSvg = true;
+            toggleViewBtn.textContent = 'Показать фото';
+            handleImageError(this, item.svgType, item.name);
+          };
+          modalImg.src = item.image;
+        } else {
+          modalShowingSvg = true;
+          toggleViewBtn.textContent = 'Показать фото';
+          modalImg.src = buildMachineSvgDataUri(item.svgType, item.name);
+        }
+      };
+
+      // Рендер таблицы характеристик
+      const specsList = document.getElementById('modal-specs-list');
+      specsList.innerHTML = item.specs.map((spec, idx) => `
+        <div class="flex flex-col sm:flex-row sm:justify-between gap-1 px-4 py-2.5 ${idx % 2 === 0 ? 'bg-slate-50' : 'bg-white'}">
+          <span class="text-slate-500 font-medium">${spec.label}</span>
+          <span class="text-slate-900 font-bold sm:text-right">${spec.value}</span>
+        </div>
+      `).join('');
+
+      // Привязка кнопок внутри модального окна
+      document.getElementById('modal-order-btn').onclick = function() {
+        closeDetailModal();
+        const formInput = document.getElementById('form-equipment');
+        formInput.value = `${item.name} (${formatCurrency(item.price)})`;
+        document.getElementById('application').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => document.getElementById('form-name').focus(), 600);
+      };
+
+      document.getElementById('modal-calc-btn').onclick = function() {
+        closeDetailModal();
+        selectModelForCalc(item.id);
+      };
+
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('detail-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    /**
+     * Переключение типа графика платежей в калькуляторе (Сезонный, Аннуитетный, Убывающий)
+     */
+    function setScheduleType(type) {
+      calcState.scheduleType = type;
+
+      const types = ['seasonal', 'annuity', 'decreasing'];
+      types.forEach(t => {
+        const btn = document.getElementById(`schedule-${t}-btn`);
+        if (!btn) return;
+        const radioDot = btn.querySelector('div:first-child');
+        if (t === type) {
+          btn.className = 'schedule-type-btn active flex items-start gap-2.5 p-3.5 rounded-2xl border-2 border-agro-primary bg-agro-light/60 text-left transition cursor-pointer';
+          radioDot.className = 'w-4 h-4 rounded-full border-4 border-agro-primary bg-white mt-0.5 shrink-0';
+        } else {
+          btn.className = 'schedule-type-btn flex items-start gap-2.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 text-left transition cursor-pointer';
+          radioDot.className = 'w-4 h-4 rounded-full border-2 border-slate-300 bg-white mt-0.5 shrink-0';
+        }
+      });
+
+      recalculateLeasing();
+    }
+
+    /**
+     * Пересчет всех показателей лизингового калькулятора
+     */
+    function recalculateLeasing() {
+      const price = Math.max(500000, Number(calcState.price) || 18500000);
+      const advancePercent = Number(calcState.advancePercent);
+      const termYears = Number(calcState.termYears);
+      const months = termYears * 12;
+
+      const advanceAmount = price * (advancePercent / 100);
+      const financedAmount = price - advanceAmount;
+
+      // Годовая ставка удорожания в зависимости от типа графика
+      let annualMarkupRate = 0.039;
+      if (calcState.scheduleType === 'seasonal') annualMarkupRate = 0.042;
+      if (calcState.scheduleType === 'decreasing') annualMarkupRate = 0.036;
+
+      const totalMarkup = financedAmount * annualMarkupRate * termYears;
+      const totalLeasingSum = financedAmount + totalMarkup;
+      const avgMonthlyPayment = totalLeasingSum / months;
+
+      // Налоговая экономия (возврат НДС 20% + экономия на налоге на прибыль 20% от лизинговых платежей)
+      const fullContractValue = advanceAmount + totalLeasingSum;
+      const vatSaving = fullContractValue * (20 / 120);
+      const profitTaxSaving = (fullContractValue - vatSaving) * 0.20;
+      const totalTaxSaving = vatSaving + profitTaxSaving;
+
+      // Обновление интерфейса
+      const selectedModel = EQUIPMENT_DATA.find(m => m.id === calcState.modelId);
+      document.getElementById('calc-selected-title').textContent = selectedModel
+        ? selectedModel.name
+        : 'Техника по заданной стоимости';
+
+      document.getElementById('calc-advance-percent-label').textContent = `${advancePercent}%`;
+      document.getElementById('calc-advance-sum-label').textContent = formatCurrency(advanceAmount);
+
+      const yearWord = termYears === 1 ? 'год' : (termYears >= 2 && termYears <= 4 ? 'года' : 'лет');
+      document.getElementById('calc-term-label').textContent = `${termYears} ${yearWord} (${months} мес.)`;
+
+      document.getElementById('res-advance-amount').textContent = formatCurrency(advanceAmount);
+      document.getElementById('res-financed-amount').textContent = formatCurrency(financedAmount);
+      document.getElementById('res-markup-info').textContent = `${(annualMarkupRate * 100).toFixed(1).replace('.', ',')}% в год (${formatCurrency(totalMarkup)})`;
+      document.getElementById('res-tax-saving').textContent = formatCurrency(totalTaxSaving);
+
+      const seasonalNote = document.getElementById('calc-seasonal-note');
+      const paymentSubtitle = document.getElementById('calc-payment-subtitle');
+
+      if (calcState.scheduleType === 'seasonal') {
+        paymentSubtitle.textContent = 'Среднемесячный платеж (с учетом сезонности)';
+        document.getElementById('res-monthly-payment').textContent = formatCurrency(avgMonthlyPayment);
+        const offSeasonPayment = avgMonthlyPayment * 0.4;
+        seasonalNote.classList.remove('hidden');
+        seasonalNote.textContent = `* В межсезонье (январь–июль) платеж составит ~${formatCurrency(offSeasonPayment)}/мес., основные выплаты — осенью.`;
+      } else if (calcState.scheduleType === 'decreasing') {
+        const firstMonthPayment = avgMonthlyPayment * 1.28;
+        const lastMonthPayment = avgMonthlyPayment * 0.72;
+        paymentSubtitle.textContent = 'Первый ежемесячный платеж (убывающий график)';
+        document.getElementById('res-monthly-payment').textContent = formatCurrency(firstMonthPayment);
+        seasonalNote.classList.remove('hidden');
+        seasonalNote.textContent = `* К концу срока договора ежемесячный платеж плавно снизится до ${formatCurrency(lastMonthPayment)}/мес.`;
+      } else {
+        paymentSubtitle.textContent = 'Фиксированный ежемесячный платеж';
+        document.getElementById('res-monthly-payment').textContent = formatCurrency(avgMonthlyPayment);
+        seasonalNote.classList.add('hidden');
+      }
+    }
+
+    /**
+     * Перенос данных из калькулятора в форму заявки
+     */
+    function transferCalcToForm() {
+      const selectedModel = EQUIPMENT_DATA.find(m => m.id === calcState.modelId);
+      const modelTitle = selectedModel ? selectedModel.name : 'Подбор техники';
+      const scheduleMap = {
+        seasonal: 'Сезонный график',
+        annuity: 'Аннуитетный график',
+        decreasing: 'Убывающий график'
+      };
+      const scheduleName = scheduleMap[calcState.scheduleType] || 'Сезонный график';
+
+      const summary = `${modelTitle} | Цена: ${formatCurrency(calcState.price)} | Аванс: ${calcState.advancePercent}% | Срок: ${calcState.termYears} лет | ${scheduleName}`;
+
+      document.getElementById('form-equipment').value = summary;
+      document.getElementById('application').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => document.getElementById('form-name').focus(), 600);
+    }
+
+    /**
+     * Управление модальным окном звонка и всплывающим уведомлением (без alert/confirm)
+     */
+    function openCallbackModal(titleText) {
+      document.getElementById('callback-modal-title').textContent = titleText || 'Заказать обратный звонок';
+      const modal = document.getElementById('callback-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCallbackModal() {
+      const modal = document.getElementById('callback-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    let toastTimeout = null;
+    function showToast(title, message) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.remove('hidden');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 6000);
+    }
+
+    /**
+     * Инициализация всех обработчиков событий после загрузки DOM
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Рендер каталога и заполнение списка моделей в калькуляторе
+      renderCatalog();
+      initCalculatorSelect();
+      recalculateLeasing();
+
+      // 2. Мобильное меню
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      });
+
+      // 3. Фильтры и поиск каталога
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentCategory = btn.dataset.category;
+          updateFilterButtonsUI();
+          renderCatalog();
+        });
+      });
+
+      document.getElementById('catalog-search').addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        renderCatalog();
+      });
+
+      // 4. События калькулятора
+      document.getElementById('calc-model-select').addEventListener('change', (e) => {
+        const val = e.target.value;
+        calcState.modelId = val;
+        if (val !== 'custom') {
+          const item = EQUIPMENT_DATA.find(m => m.id === val);
+          if (item) {
+            calcState.price = item.price;
+            document.getElementById('calc-price-range').value = Math.min(65000000, item.price);
+            document.getElementById('calc-price-input').value = item.price;
+          }
+        }
+        recalculateLeasing();
+      });
+
+      document.getElementById('calc-price-range').addEventListener('input', (e) => {
+        calcState.modelId = 'custom';
+        document.getElementById('calc-model-select').value = 'custom';
+        calcState.price = Number(e.target.value);
+        document.getElementById('calc-price-input').value = calcState.price;
+        recalculateLeasing();
+      });
+
+      document.getElementById('calc-price-input').addEventListener('input', (e) => {
+        calcState.modelId = 'custom';
+        document.getElementById('calc-model-select').value = 'custom';
+        const val = Number(e.target.value);
+        if (val >= 500000) {
+          calcState.price = val;
+          document.getElementById('calc-price-range').value = Math.min(65000000, Math.max(1500000, val));
+          recalculateLeasing();
+        }
+      });
+
+      document.getElementById('calc-advance-range').addEventListener('input', (e) => {
+        calcState.advancePercent = Number(e.target.value);
+        recalculateLeasing();
+      });
+
+      document.getElementById('calc-term-range').addEventListener('input', (e) => {
+        calcState.termYears = Number(e.target.value);
+        recalculateLeasing();
+      });
+
+      // 5. Отправка форм (без перезагрузки страницы)
+      document.getElementById('leasing-application-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('form-name').value.trim();
+        showToast(
+          `Спасибо, ${name}! Заявка отправлена`,
+          'Персональный менеджер агролизинга свяжется с вами в течение 15 минут с точным графиком платежей.'
+        );
+        e.target.reset();
+      });
+
+      document.getElementById('quick-callback-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        closeCallbackModal();
+        showToast(
+          'Запрос на обратный звонок принят',
+          'Наш специалист уже набирает ваш номер. Ожидайте звонка в течение 5–10 минут.'
+        );
+        e.target.reset();
+      });
+
+      // 6. Закрытие модальных окон по клику на фон или клавише Escape
+      document.getElementById('detail-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'detail-modal') closeDetailModal();
+      });
+      document.getElementById('callback-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'callback-modal') closeCallbackModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeDetailModal();
+          closeCallbackModal();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
